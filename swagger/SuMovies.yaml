@@ -1,0 +1,221 @@
+openapi: '3.0.2'
+info:
+  title: API pour le site web SuMovies
+  description : Une api conçue pour les utilsateurs afin qu'ils puissent créer une bibliothèque de films
+  version: '1.0'
+servers:
+  - url: http://localhost:8000/api/
+
+
+paths:
+  /movie/{movieId}:
+    parameters:
+      - in: path
+        name: movieId
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+
+    get:
+      tags:
+        - Movie
+      summary: Returns data of a movie identified by its id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie' 
+        '404':
+          description: The specified ID was not found.
+
+    put: 
+      tags:
+        - Movie
+      summary: Modifies data of a movie identified by its id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '201':
+          description: Updated
+
+    delete: 
+      tags:
+        - Movie
+      summary: Delete a movie identified by its id
+      responses:
+        '200':
+          description: Deleted
+        '404':
+          description: The specified ID was not found.
+
+
+  /movie:
+
+    post:
+      tags:
+        - Movie
+      summary: Creates a new travel movie card 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movie'
+      responses:
+        '201':
+          description: Created
+
+    get:
+      tags:
+        - Movies
+      summary: Returns all movie cards
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                   $ref: '#/components/schemas/Movie'
+
+  /category/{categoryId}:
+
+    parameters:
+      - in: path
+        name: categoryId
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+    get:
+      tags:
+        - Category
+      summary: Returns data of a category identified by its id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category' 
+        '404':
+          description: The specified ID was not found.
+    put: 
+      tags:
+        - Category
+      summary: Modifies the data of a category identified by its id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          description: Updated
+          
+    delete: 
+      tags:
+        - Category
+      summary: Delete a category identified by its id
+      responses:
+        '200':
+          description: Deleted
+        '404':
+          description: The specified ID was not found.
+
+
+  /category:
+    post:
+      tags:
+        - Category
+      summary: Creates a new category 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          description: Created
+
+    get:
+      tags:
+        - Categories
+      summary: Returns all categories
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                   $ref: '#/components/schemas/Category'
+
+
+components:
+  schemas:
+    Movie:
+      type: object
+      properties:
+        movieid:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: Harry Potter
+        image:
+          type: string
+          example: data:image/jpeg;base64,/9j/... 
+        duration:
+          type: string
+          example: 02:34
+        synopsys:
+          type: string
+          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis vitae risus eget laoreet. Aenean bibendum aliquam sollicitudin. 
+        summary :
+          type: string
+          example: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis vitae risus eget laoreet. Aenean bibendum aliquam sollicitudin. Sed nec scelerisque ex.Sed Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis vitae risus eget laoreet. Aenean bibendum aliquam sollicitudin. Sed nec scelerisque ex.nec scelerisque ex.
+        category : 
+          type: array
+          items:
+            $ref: '#/components/schemas/Category' 
+      required:  
+        - movieid
+        - title
+        - image
+        - duration
+        - synopsys
+        - summary
+    Category:
+      type: object
+      properties:
+        categoryId:
+          type: integer
+          example: 3
+        name:
+          type: string
+          example: Horreur
+        movie :
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'   
+      required:  
+        - id
+        - name
+        
+
+                
+                  
